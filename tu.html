@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="tu.css"/>
+		<script src="animate.js"></script>
+	</head>
+	<body>
+	<div id="big" class="big">
+		<div  id="back" class="back"> 
+			<div id="img" class="img">
+				<img src="./images/a15.png">
+			</div>
+			<div id="leftmove" class="leftmove" >
+				<div  id="move" class="move">
+					[温馨提示]最近有不少不法分子在网上骗人，请大家注意！
+				</div>
+				
+			</div>
+		</div>
+		<div id="box" class="box">
+			<div id="slider" class="slider">
+				<div class="slide"><img src="./images/b5.png" alt=" "></div>
+				<div class="slide"><img src="./images/b1.png" alt=" "></div>
+				<div class="slide"><img src="./images/b2.png" alt=" "></div>
+				<div class="slide"><img src="./images/b3.png" alt=" "></div>
+				<div class="slide"><img src="./images/b4.png" alt=" "></div>
+				<div class="slide"><img src="./images/b5.png" alt=" "></div>
+				<div class="slide"><img src="./images/b1.png" alt=" "></div>
+			</div>
+			<span id="left">
+				&lt;
+			</span>
+
+			<span id="right">
+				&gt;
+			</span>
+			<ul class="nav" id="nav">
+				<li class="active"> 1</li>
+				<li> 2</li>
+				<li> 3</li>
+				<li> 4</li>
+				<li> 5</li>
+			</ul>
+		</div>
+	</div>
+		<script type="text/javascript">
+			var box = document.getElementById("box");
+			var oNavlist = document.getElementById("nav").children;
+			var slider = document.getElementById("slider");
+			var left = document.getElementById("left");
+			var right = document.getElementById("right");
+			var index = 1;
+			var timer;
+			var flag = 0;
+			function next() {
+				if(flag == 1) {
+					return ;
+				}
+				flag = 1;
+				index++;
+				navChange();
+				animate(slider,{left:-1200*index},function() {
+					if(index >= 6) {
+						slider.style.left = "-1200px";
+						index = 1;
+					}
+					flag = 0;
+				});
+			}
+			
+			function prev() {
+				if(flag == 1) {
+					return ;
+				}
+				flag = 1;
+				//navChange();
+				navChange2();
+				index--;
+				animate(slider,{left:-1200*index},function() {
+					if(index <= 0) {
+						slider.style.left = "-6000px";
+						index = 5;
+					}
+					flag = 0; 
+				});
+			}
+			var timer = setInterval(next,2000);
+			box.onmouseover = function() {
+				animate(left, {opacity:50});
+				animate(right, {opacity:50});
+				clearInterval(timer);
+			}
+			box.onmouseout = function() {
+				animate(left, {opacity:0});
+				animate(right, {opacity:0});
+				timer = setInterval(next, 2000);
+			}
+			
+			right.onclick = next;
+			left.onclick = prev;
+			
+			for(var i = 0; i < oNavlist.length; i++) {
+				oNavlist[i].idx = i;
+				oNavlist[i].onclick = function() {
+					index = this.idx + 1;
+					navChange();
+					animate(slider,{left:-1200*index});
+				}
+			}
+			function navChange() {
+				for(var i = 0; i < oNavlist.length; i++) {
+					oNavlist[i].className = "";
+				}
+				oNavlist[(index-1)%5].className = "active";
+				
+			}
+			function navChange2() {
+				for(var i = 0; i < oNavlist.length; i++) {
+					oNavlist[i].className = "";
+				}
+				oNavlist[(index+3)%5].className = "active";
+				
+			}
+			var move=document.getElementById("move");
+			var intervalId;
+			window.onload=function(){
+				intervalId=setInterval(function(){
+			   var styleobj=getComputedStyle(move);
+		       var boxMarginLeft=parseInt(styleobj["marginLeft"]);
+		       if(boxMarginLeft<=300)
+		       {
+		       	boxMarginLeft=1100;
+
+		       }
+		       move.style.marginLeft=(boxMarginLeft-1)+"px";
+
+
+			},10)
+		}
+			
+		</script>
+	</body>
+</html>
+	
+
